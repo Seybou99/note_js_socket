@@ -2,6 +2,9 @@ import './App.css'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import { faPaperPlane, faUser } from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react';
+import {io} from 'socket.io-client';
+
+const socket = io('http://localhost:3000/');
 
 function App() {
   // On déclare 2 states, donc, l'equivalent des variables, qui me permettront de conserver, 
