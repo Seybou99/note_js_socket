@@ -56,14 +56,20 @@ io.on('connection', (socket) => {
   });
 
   socket.on('setUsername', (username) => {
-    users[socket.id] = username;
+    users[socket.id] = { username, isConnected: true };
     io.emit('updateUserList', users);
+  });
+
+  socket.on('messageSeen', (messageId) => {
+    io.emit('messageSeen', { messageId, userId: socket.id });
   });
 
   socket.on('disconnect', () => {
     console.log(`User disconnected: ${socket.id}`);
+    if (users[socket.id]) {
+      users[socket.id].isConnected = false;
+    }
     socketsConnected.delete(socket.id);
-    delete users[socket.id];
     io.emit('updateUserList', users);
     io.emit('userCount', socketsConnected.size);
   });
